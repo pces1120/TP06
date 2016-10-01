@@ -22,7 +22,7 @@ function Pelicula (id, titulo) {
 
 var pelicula = new Pelicula(0, 'Strange Encounters Of The Third Kind');
 
-var IMDB = (function (){
+var imdb = (function (){
 
 	//Array de peliculas
 
@@ -33,7 +33,7 @@ var IMDB = (function (){
 
 	//Funcion para validar que la pelicula no fue ingresada previamente
 
-	this.peliculaNoIngresada = function (pelicula){
+	var peliculaNoIngresada = function (pelicula){
 
 		var pos = -1;
 		var peliculaActual;
@@ -55,7 +55,7 @@ var IMDB = (function (){
 
 	//Funcion para agregar la pelicula
 
-	this.agregarPelicula = function (pelicula){
+	var agregarPelicula = function (pelicula){
 
 		var pos = peliculaNoIngresada(pelicula);
 
@@ -73,17 +73,13 @@ var IMDB = (function (){
 	}
 
 
+
 	//Funcion para eliminar una pelicula por ID
 
-	this.obtenerId = function (){
 
-		return pelicula.id;
-	}
-
-
-	this.eliminarPelicula = function (idPelicula){
+	var eliminarPelicula = function (idPelicula){
 		
-		for(i = 0; i < peliculas.length ; i++){
+		for(i = 0; i <= peliculas.length ; i++){
 
 			if (peliculas[i].id === idPelicula){
 
@@ -104,7 +100,7 @@ var IMDB = (function (){
 	//Funcion para ordenar peliculas por ID
 
 	
-	this.compararId = function (peliculaA,peliculaB) {
+	var compararId = function (peliculaA,peliculaB) {
 
 		var resultado;
 
@@ -131,7 +127,7 @@ var IMDB = (function (){
 		}
 
 
-	this.ordenarId = function() {
+	var ordenarId = function() {
 
 		console.log(peliculas.sort(this.compararId));
 
@@ -142,7 +138,7 @@ var IMDB = (function (){
 
 	var guardarPelicula = function(){
 
-		var datos = JSON.stringfy(peliculas);
+		var datos = JSON.stringify(peliculas);
 
 		localStorage.setItem('peliculas', datos);
 	}
@@ -156,17 +152,35 @@ var IMDB = (function (){
 
 		if(datos !== null){
 
-			 datos === JSON.parse(datos)
+			 datos = JSON.parse(datos);
+
+			 peliculas = datos;
 		}
 	}
 
-	recuperarPelicula();
+	// Funcion para eliminar peliculas en el local storage
+
+	var eliminarPeliculaLs = function(id){
+
+		var datos = localStorage.getItem('peliculas');
+
+		if(datos !== null){
+
+			localStorage.removeItem(pelicula.id, id)
+
+		}
+
+	}
 
 
 	return {
 
-		guardarPeliculaPublico: guardarPelicula
-		agregarPeliculaPublico: agregarPelicula
+		agregarPelicula: agregarPelicula,
+		eliminarPelicula: eliminarPelicula,
+		guardarPeliculaLs: guardarPelicula,
+		recuperarPeliculaLs: recuperarPelicula,
+		eliminarPeliculaLs: eliminarPeliculaLs,
+		ordenarId: ordenarId,
 
 	};
 
